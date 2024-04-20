@@ -65,10 +65,10 @@ pub fn p2pkh_verifier(folder_path: &str) -> Vec<std::string::String>{
         }
     }
     //println!("{:?}", txid_vec);
-    println!("Number of transactions processed: {}", number_of_transactions_processed);
-    println!("Number of valid transactions: {}", number_of_valid_txn);
-    println!("Number of invalid transactions: {}", number_of_invalid_txn);
-    println!("Number of transactions with multiple script types: {}", number_of_multi_script_types);
+    // println!("Number of transactions processed: {}", number_of_transactions_processed);
+    // println!("Number of valid transactions: {}", number_of_valid_txn);
+    // println!("Number of invalid transactions: {}", number_of_invalid_txn);
+    // println!("Number of transactions with multiple script types: {}", number_of_multi_script_types);
 
     return txid_vec;
 
@@ -84,7 +84,7 @@ fn merkle_root(txids: Vec<&str>) -> String {
         hex::encode(txid_bytes)
     }).collect();
 
-    println!("{:?}", txids_le);
+   // println!("{:?}", txids_le);
     // Recursive function to compute Merkle root
     fn compute_merkle_root(txids: Vec<String>) -> String {
         if txids.len() == 1 {
@@ -290,7 +290,7 @@ impl P2PKH {
         ////////////////////////////////////////////////////////////////
         /// I am not considering transaction other than sighashall so the function returns false
         if &signature[signature.len() - 2..] != "01" {
-            println!("not sighashall type signature");
+            //println!("not sighashall type signature");
             return false;
         }
         //Checking that public key is equal to public key hash

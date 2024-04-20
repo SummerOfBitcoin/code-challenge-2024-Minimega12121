@@ -63,10 +63,10 @@ pub fn p2wpkh_verifier(folder_path: &str)  -> (Vec<String> , Vec<String>){
     }
     // println!("{:?}",txid_vec);
     // println!("{:?}",wtxid_vec);
-    println!("Number of transactions processed: {}", number_of_transactions_processed);
-    println!("Number of valid transactions: {}", number_of_valid_txn);
-    println!("Number of invalid transactions: {}", number_of_invalid_txn);
-    println!("Number of transactions with multiple script types: {}", number_of_multi_script_types);
+    // println!("Number of transactions processed: {}", number_of_transactions_processed);
+    // println!("Number of valid transactions: {}", number_of_valid_txn);
+    // println!("Number of invalid transactions: {}", number_of_invalid_txn);
+    // println!("Number of transactions with multiple script types: {}", number_of_multi_script_types);
 
     (txid_vec, wtxid_vec) 
 

@@ -277,7 +277,7 @@ fn coinbase_txid_maker( witness_commitment: String)-> (String, String) {
 
 
     let coinbase_txid = format!("{}{}{}{}{}{}{}", starting, output_count, amount, script_pub_key, second_output, witness, locktime);
-    println!("Coinbase txid is:{}", coinbase_txid);
+    //println!("Coinbase txid is:{}", coinbase_txid);
     // First, decode the raw_transaction into bytes
     let raw_bytes = hex::decode(coinbase_txid.clone()).unwrap_or_else(|err| {
         panic!("Error decoding hex string: {}", err);
@@ -320,10 +320,10 @@ fn main() {
 
     let witness_commitment = witness_commitment_maker(p2pkh_txid_vec.clone(), p2wpkh_wtxid_vec);
 
-    println!("{}", witness_commitment);
+    //println!("{}", witness_commitment);
 
     let (coinbase_txn,coinbase_serialized) = coinbase_txid_maker(witness_commitment);
-    println!("coinbase txid:{}", coinbase_txn);
+   // println!("coinbase txid:{}", coinbase_txn);
     //println!("010000000001010000000000000000000000000000000000000000000000000000000000000000ffffffff2503233708184d696e656420627920416e74506f6f6c373946205b8160a4256c0000946e0100ffffffff02f595814a000000001976a914edf10a7fac6b32e24daa5305c723f3de58db1bc888ac0000000000000000266a24aa21a9edfaa194df59043645ba0f58aad74bfd5693fa497093174d12a4bb3b0574a878db0120000000000000000000000000000000000000000000000000000000000000000000000000");
     
     //Block header
@@ -331,7 +331,7 @@ fn main() {
     let previous_block = "0000000000000000000000000000000000000000000000000000000000000000";
     let mut merkel_root = merkel_root_calculator(p2pkh_txid_vec.clone(), p2wpkh_txid_vec.clone(), coinbase_txn.clone());
     merkel_root =  hex::encode(&hex::decode(&merkel_root.as_str()).unwrap().into_iter().rev().collect::<Vec<_>>());
-    println!("Merkel root is: {}", merkel_root);
+   // println!("Merkel root is: {}", merkel_root);
     //Timestamp
     let current_time = SystemTime::now();
     let since_epoch = current_time.duration_since(UNIX_EPOCH).unwrap();
@@ -339,7 +339,7 @@ fn main() {
     let mut timestamp_num_bytes = [0; 4]; // 4 bytes for a u32 value
     LittleEndian::write_u32(&mut timestamp_num_bytes, timestamp);
     let mut time = format!("{:02x}{:02x}{:02x}{:02x}", timestamp_num_bytes[0], timestamp_num_bytes[1], timestamp_num_bytes[2], timestamp_num_bytes[3]);
-    println!("{}", time);
+   // println!("{}", time);
 
 
 
@@ -348,7 +348,7 @@ fn main() {
     let target_str = "0000ffff00000000000000000000000000000000000000000000000000000000";
     let compact_target_value = "ffff001f"; // Convert to u32 value
     
-    println!("Transaction count {}", transaction_count);
+   // println!("Transaction count {}", transaction_count);
     
 
 
@@ -362,7 +362,7 @@ fn main() {
 
     let block_header_without_nonce = format!("{}{}{}{}{}",version,previous_block,merkel_root,time,compact_target_value);
     
-    println!("Block header: {}",block_header_without_nonce);
+    //println!("Block header: {}",block_header_without_nonce);
 
     // // Mining 
 
@@ -397,8 +397,8 @@ fn main() {
         nonce += 1;
     }
 
-    println!("Nonce found: {}", nonce);
-    println!("Final header hash:{}", block_header);
+    //println!("Nonce found: {}", nonce);
+    //println!("Final header hash:{}", block_header);
 
 
     //make output.txt
@@ -421,7 +421,7 @@ fn main() {
     let elapsed_time = start_time.elapsed();
     // Print the elapsed time in seconds and milliseconds
     //Add transaction ids
-    println!("Time taken: {:.2?}", elapsed_time);
+    //println!("Time taken: {:.2?}", elapsed_time);
     //println!("Fuck you");
     //6b1325c8651def55c38cabfff7335b4519dd9dada4eba0aea5b7114598922137
     //faa194df59043645ba0f58aad74bfd5693fa497093174d12a4bb3b0574a878db
