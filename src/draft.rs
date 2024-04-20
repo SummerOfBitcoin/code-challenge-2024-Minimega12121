@@ -75,14 +75,14 @@ fn main() {
                     // let data: serde_json::Value = serde_json::from_str(&contents).expect("Failed to parse JSON");
                     // println!("{:?}", data);
                     let version = data["version"].as_u64().unwrap();
-                    println!("{}",version);
+                    //println!("{}",version);
 
                     if let Some(vin_array) = data["vin"].as_array(){
                         if let Some(vin) = vin_array.get(0) {
                             let scriptsig_asm = vin["scriptsig_asm"].as_str().unwrap();
-                            println!("{}",scriptsig_asm);
+                            //println!("{}",scriptsig_asm);
                             let scriptpubkey_asm = vin["prevout"]["scriptpubkey_asm"].as_str().unwrap();
-                            println!("{}",scriptpubkey_asm);
+                            //println!("{}",scriptpubkey_asm);
                         }
                     }
                 }

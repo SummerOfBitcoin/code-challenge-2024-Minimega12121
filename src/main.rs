@@ -385,7 +385,7 @@ fn main() {
         let hash_result_biguint = BigUint::from_bytes_be(hash_result_byte.clone().as_slice());
 
         // Show the result
-        println!("Nonce: {}, Hash: {}", nonce, hex::encode(hash_result));
+        //println!("Nonce: {}, Hash: {}", nonce, hex::encode(hash_result));
 
         // End the loop if we find a block hash below the target
         if hash_result_biguint < target {

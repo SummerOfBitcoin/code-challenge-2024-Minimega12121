@@ -44,12 +44,12 @@ pub fn p2wpkh_verifier(folder_path: &str)  -> (Vec<String> , Vec<String>){
                                 let result = p2wpkh_object.validator();
                                 if result {
                                     number_of_valid_txn+=1;
-                                    println!("Validtxn");
+                                    //println!("Validtxn");
                                     txid_vec.push(p2wpkh_object.p2wpkh_transaction_maker(false));
                                     wtxid_vec.push(p2wpkh_object.p2wpkh_transaction_maker(true));
                                 }else{
                                     number_of_invalid_txn+=1;
-                                    println!("Invalid txn")
+                                   // println!("Invalid txn")
                                 }
                             } else{
                                 number_of_multi_script_types += 1;

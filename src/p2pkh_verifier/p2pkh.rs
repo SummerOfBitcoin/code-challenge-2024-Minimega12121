@@ -47,13 +47,13 @@ pub fn p2pkh_verifier(folder_path: &str) -> Vec<std::string::String>{
                                 let mut txid: String = String::new();
                                 if result {
                                     number_of_valid_txn+=1;
-                                    println!("Validtxn");
+                                   // println!("Validtxn");
                                     //extract and make the transaction id of valid legacy transactions
                                     txid_vec.push(p2pkh_object.p2pkh_transaction_maker());
                                    
                                 }else{
                                     number_of_invalid_txn+=1;
-                                    println!("Invalid txn")
+                                    //println!("Invalid txn")
                                 }
                             } else{
                                 number_of_multi_script_types += 1;
