@@ -118,15 +118,13 @@ Here is my design approach divided into three main parts:
 
 ## Implementation Details
 
-### Why only P2PKH and P2WPKH verification ?
+### Why only P2PKH and P2WPKH verification?
 
-For the best optimum solution to get a high score for the assignment, I calculated the max possible value of fee available from different transaction types.
-On analysis I found that P2PKH and P2WPKH signature verfication would suffice for completion of the assingment.
+For the best optimum solution to get a high score for the assignment, I calculated the max possible value of the fee available from different transaction types. On analysis, I found that P2PKH and P2WPKH signature verification would suffice for the completion of the assignment.
 
-Other optimization used:
- While reading the mempool a filter is used so that the size of the transaction read is below 90kb, this was done because the time it took to verify and icnlude large 
- transactions were not worth the computational effort
- Apart from this I used a filter to only take the transaction with sighash of type 'sighashall' to simplify the verification process
+Other optimizations used:
+- While reading the mempool, a filter is used so that the size of the transaction read is below 90kb. This was done because the time it took to verify and include large transactions was not worth the computational effort.
+- Apart from this, I used a filter to only take the transaction with a sighash of type 'sighashall' to simplify the verification process.
 
 Following are the algorithm for the three major sections of the solution:
 
