@@ -120,8 +120,8 @@ Here is my design approach divided into three main parts:
 
 ### Why only P2PKH and P2WPKH verification ?
 
-For the best optimum solution to get a high score for the assignment, I calculated the max possible value of fee available from different transaction types
-On analysis I found that the P2WPKH and P2HWPKH signature verfication would suffice for completion of the assingment.
+For the best optimum solution to get a high score for the assignment, I calculated the max possible value of fee available from different transaction types.
+On analysis I found that P2PKH and P2WPKH signature verfication would suffice for completion of the assingment.
 
 Other optimization used:
  While reading the mempool a filter is used so that the size of the transaction read is below 90kb, this was done because the time it took to verify and icnlude large 
