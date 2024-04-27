@@ -166,8 +166,9 @@ Following are the algorithm for the three major sections of the solution:
 #### RESULTS AND PERFORMANCE
 
 Time analysis:
--On an average it takes: 5-8s for p2pkh and p2wpkh transaction verification
-- Result and score:
+-On an average it takes: 5-8s for p2pkh and p2wpkh transaction verification. Apart from that rest of the time is depended on long it takes to do the Proof of Work algorithm.
+
+Result and score:
 - Score: 95
 - Fee: 19648217
 - Weight: 3801130
