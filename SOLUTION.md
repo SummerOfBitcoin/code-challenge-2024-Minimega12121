@@ -167,7 +167,7 @@ Following are the algorithm for the three major sections of the solution:
 
 Time analysis:
 -On an average it takes: 5-8s for p2pkh and p2wpkh transaction verification
-Result and score:
+- Result and score:
 - Score: 95
 - Fee: 19648217
 - Weight: 3801130
@@ -177,9 +177,13 @@ Result and score:
 #### CONCLUSION
 
 Insights gained from solving this problem include:
+1. Utilizing filters to limit transaction sizes and focusing on specific signature types (like 'sighashall') streamlined the verification process, reducing computational effort without compromising accuracy.
+2. Blockchain Integrity: The validation and verification steps ensure the integrity of transactions, maintaining the security and trustworthiness of the blockchain network.
 
 Areas for future improvement or research could include:
 - Incorporating more types of script-sig types such that the size is even less than the segwit type without compromising security.
+
+-In conclusion, the assignment gave deeper insights to how bitcoin blockchain works and what makes bitcoin one of a kind technology.This really sparked my interest for the subject and acted as a link between the theory of the Grokkin Bitcoin book and it's actual implementation is.
 
 Resources used for the project:
 - [Learn Me a Bitcoin](https://learnmeabitcoin.com/)
