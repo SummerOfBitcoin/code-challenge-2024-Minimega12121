@@ -163,10 +163,10 @@ Following are the algorithm for the three major sections of the solution:
 
 
 
-#### RESULTS AND PERFORMANCE
+## RESULTS AND PERFORMANCE
 
 Time analysis:
--On an average it takes: 5-8s for p2pkh and p2wpkh transaction verification. Apart from that rest of the time is depended on long it takes to do the Proof of Work algorithm.
+-On an average it takes: 5-8s for p2pkh and p2wpkh transaction verification. Apart from that rest of the time is depended on how long it takes to do the Proof of Work algorithm.
 
 Result and score:
 - Score: 95
@@ -175,7 +175,7 @@ Result and score:
 - Max Fee: 20616923
 - Max Weight: 4000000
 
-#### CONCLUSION
+## CONCLUSION
 
 Insights gained from solving this problem include:
 1. Utilizing filters to limit transaction sizes and focusing on specific signature types (like 'sighashall') streamlined the verification process, reducing computational effort without compromising accuracy.
