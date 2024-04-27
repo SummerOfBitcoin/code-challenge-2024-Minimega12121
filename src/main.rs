@@ -15,13 +15,9 @@ use p2pkh_verifier::p2pkh::p2pkh_verifier ;
 mod p2wpkh_verifier;
 use p2wpkh_verifier::p2wpkh::p2wpkh_verifier ;
 use std::fs::File;
-use std::io::{self, Write};
-use chrono::{DateTime, NaiveDateTime, Utc};
+use std::io::Write;
 use num_bigint::BigUint;
-use num_traits::{FromPrimitive, Num, ToPrimitive};
-use std::convert::TryInto;
-use std::str::FromStr;
-
+use num_traits::Num;
 
 // computes merkel root of vector of strings and returns in reverse byte order
 fn merkle_root(txids: Vec<&str>) -> String {
@@ -33,7 +29,6 @@ fn merkle_root(txids: Vec<&str>) -> String {
         hex::encode(txid_bytes)
     }).collect();
 
-   // println!("{:?}", txids_le);
     // Recursive function to compute Merkle root
     fn compute_merkle_root(txids: Vec<String>) -> String {
         if txids.len() == 1 {
@@ -52,10 +47,8 @@ fn merkle_root(txids: Vec<&str>) -> String {
         result.push(double_sha256(hex::decode(&concat).unwrap().as_slice()).iter().map(|&byte| format!("{:02x}", byte)).collect::<String>());
 
         }
-
         compute_merkle_root(result)
     }
-
     // Call recursive function to compute Merkle root
     let merkle_root = compute_merkle_root(txids_le);
 
@@ -70,10 +63,8 @@ fn double_sha256(data: &[u8]) -> Vec<u8> {
 
 //pub_key for p2wpkh is second part of the witness
 fn publickey_to_script_code(pubkey: &str) -> String {
-
     // Decode the public key from hex
     let public_key_bytes = decode(pubkey).expect("Failed to decode public key hex");
-
     // Calculate SHA-256 hash
     let sha256_bytes = Sha256::digest(&public_key_bytes);
     // println!("SHA-256 Hash: {:?}", sha256_bytes);
@@ -242,17 +233,6 @@ fn coinbase_txid_maker( witness_commitment: String)-> (String, String) {
     let starting = "010000000001010000000000000000000000000000000000000000000000000000000000000000ffffffff2503233708184d696e656420627920416e74506f6f6c373946205b8160a4256c0000946e0100ffffffff";
     let output_count = "02";
     let amount = "0000000000000000";
-
-    // let block_height: u32 = 900000; // Specify the type explicitly
-    // let block_height_bytes = block_height.to_le_bytes(); // Converts to little-endian bytes
-    // let block_height_hex = format!("{:06X}", u32::from_le_bytes(block_height_bytes)); // Convert bytes to hexadecimal string with leading zeros and 6 characters
-    // println!("Block Height in Little Endian Hex: {}", block_height_hex);
-
-    // let mut script_pub_key = String::from("30a0bb0d");
-    // script_pub_key+= "18";
-    // script_pub_key += "4d696e656420627920416e74506f6f6c373946205b8160a4";
-    // script_pub_key+= "25";
-    // script_pub_key += "6c0000946e0100";//extranonce
     let mut script_pub_key =String::from("19");
     script_pub_key+="76a914edf10a7fac6b32e24daa5305c723f3de58db1bc888ac";
 
@@ -267,17 +247,7 @@ fn coinbase_txid_maker( witness_commitment: String)-> (String, String) {
     //
     let locktime = "00000000";
 
-
-    // println!("Starting: {}", starting);
-    // println!("Output Count: {}", output_count);
-    // println!("Amount: {}", amount);
-    // println!("Script Pub Key: {}", script_pub_key);
-    // println!("Second Output: {}", second_output);
-    // println!("Witness: {}", witness);
-
-
     let coinbase_txid = format!("{}{}{}{}{}{}{}", starting, output_count, amount, script_pub_key, second_output, witness, locktime);
-    //println!("Coinbase txid is:{}", coinbase_txid);
     // First, decode the raw_transaction into bytes
     let raw_bytes = hex::decode(coinbase_txid.clone()).unwrap_or_else(|err| {
         panic!("Error decoding hex string: {}", err);
@@ -316,16 +286,12 @@ fn main() {
     let p2wpkh_path = "./mempool";
     let (p2wpkh_txid_vec, p2wpkh_wtxid_vec ) = p2wpkh_verifier(p2wpkh_path);
 
-    let transaction_count = p2wpkh_txid_vec.len() + p2pkh_txid_vec.len() + 1;//add one for coinbase transaction
-
     let witness_commitment = witness_commitment_maker(p2pkh_txid_vec.clone(), p2wpkh_wtxid_vec);
 
     //println!("{}", witness_commitment);
 
     let (coinbase_txn,coinbase_serialized) = coinbase_txid_maker(witness_commitment);
-   // println!("coinbase txid:{}", coinbase_txn);
-    //println!("010000000001010000000000000000000000000000000000000000000000000000000000000000ffffffff2503233708184d696e656420627920416e74506f6f6c373946205b8160a4256c0000946e0100ffffffff02f595814a000000001976a914edf10a7fac6b32e24daa5305c723f3de58db1bc888ac0000000000000000266a24aa21a9edfaa194df59043645ba0f58aad74bfd5693fa497093174d12a4bb3b0574a878db0120000000000000000000000000000000000000000000000000000000000000000000000000");
-    
+  
     //Block header
     let version = "04000000";
     let previous_block = "0000000000000000000000000000000000000000000000000000000000000000";
@@ -338,34 +304,21 @@ fn main() {
     let timestamp = since_epoch.as_secs() as u32; // Get the Unix timestamp as a u32
     let mut timestamp_num_bytes = [0; 4]; // 4 bytes for a u32 value
     LittleEndian::write_u32(&mut timestamp_num_bytes, timestamp);
-    let mut time = format!("{:02x}{:02x}{:02x}{:02x}", timestamp_num_bytes[0], timestamp_num_bytes[1], timestamp_num_bytes[2], timestamp_num_bytes[3]);
-   // println!("{}", time);
-
-
-
-
+    let time = format!("{:02x}{:02x}{:02x}{:02x}", timestamp_num_bytes[0], timestamp_num_bytes[1], timestamp_num_bytes[2], timestamp_num_bytes[3]);
+ 
     //Target
     let target_str = "0000ffff00000000000000000000000000000000000000000000000000000000";
     let compact_target_value = "ffff001f"; // Convert to u32 value
-    
-   // println!("Transaction count {}", transaction_count);
-    
-
 
     //Transactions joined
     let mut transactions : Vec<&str> =  Vec::new();
     transactions.push(coinbase_txn.as_str());
     transactions.extend(p2pkh_txid_vec.iter().map(|s| s.as_str()));
     transactions.extend(p2wpkh_txid_vec.iter().map(|s| s.as_str()));
-    let transaction_joined_string = transactions.clone().join("");
-    //println!("Transaction: {}", transaction_joined_string);
 
     let block_header_without_nonce = format!("{}{}{}{}{}",version,previous_block,merkel_root,time,compact_target_value);
     
-    //println!("Block header: {}",block_header_without_nonce);
-
-    // // Mining 
-
+    // Mining 
     let target = BigUint::from_str_radix(&target_str[4..], 16).unwrap(); // Ignore first 4 zeros
 
     let mut nonce: u32 = 0; // Starting nonce
@@ -383,24 +336,14 @@ fn main() {
         let hash_result_byte = decode(hash_result_hex).unwrap();
         // Convert the hash result to BigUint for comparison with the target
         let hash_result_biguint = BigUint::from_bytes_be(hash_result_byte.clone().as_slice());
-
-        // Show the result
-        //println!("Nonce: {}, Hash: {}", nonce, hex::encode(hash_result));
-
         // End the loop if we find a block hash below the target
         if hash_result_biguint < target {
             block_header = attempt;
             break;
         }
-
         // Increment the nonce and try again
         nonce += 1;
     }
-
-    //println!("Nonce found: {}", nonce);
-    //println!("Final header hash:{}", block_header);
-
-
     //make output.txt
      // Create or open the output.txt file
      let mut file = File::create("./output.txt").unwrap();
@@ -415,16 +358,8 @@ fn main() {
      for item in transactions.iter() {
          writeln!(file, "{}", item).unwrap();
      }
-
-
-
     let elapsed_time = start_time.elapsed();
-    // Print the elapsed time in seconds and milliseconds
-    //Add transaction ids
-    //println!("Time taken: {:.2?}", elapsed_time);
-    //println!("Fuck you");
-    //6b1325c8651def55c38cabfff7335b4519dd9dada4eba0aea5b7114598922137
-    //faa194df59043645ba0f58aad74bfd5693fa497093174d12a4bb3b0574a878db
+
 }
 trait ToHex {
     fn to_hex(&self) -> String;

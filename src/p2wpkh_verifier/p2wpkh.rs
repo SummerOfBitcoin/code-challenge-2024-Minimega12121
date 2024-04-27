@@ -233,7 +233,7 @@ impl P2WPKH {
         LittleEndian::write_u32(&mut vout_bytes, vout_value);
         let vout_bytes_hex = format!("{:02x}{:02x}{:02x}{:02x}", vout_bytes[0], vout_bytes[1], vout_bytes[2], vout_bytes[3]);
         let output_point = format!("{}{}",output_point,vout_bytes_hex);
-        //println!("the output point is {}",output_point);
+     
         //Script code
         let mut witness_arr: Vec<String> = Vec::new();
              if let Some(witness) = vin["witness"].as_array() {
@@ -244,22 +244,15 @@ impl P2WPKH {
             }
         let pubkey = witness_arr.get(1).unwrap();
         let script_code = publickey_to_script_code(pubkey);
-        //println!("{}", script_code);
-        //println!("02000000644a20d5bce337fe14c95b5ef6b3efb28ca22d6efef1db551790a5484f8734de18606b350cd8bf565266bc352f0caddcf01e8fa789dd8a15386327cf8cabe1984d14f6d46a3aa0ced27e22aa89426ec6405ca0f4375ccde4ce50b6ef5dd05a29000000001976a91464d3a83d69d3980774358ba9d0009c1c28b4799688acd054080000000000feffffff99c5f5f5520fb568fd1444a407e6f3646f345c4840e3683d6d254c43b12143ec4dbc0c0001000000");
-       
+     
         //Constructing message
         let message = format!(
             "{}{}{}{}{}{}{}{}{}{}",
              version_bytes, hash_prevouts, hash_sequence, output_point, script_code, value_bytes_hex, sequence_num_bytes_hex , hash_outputs, locktime_hex, sighashall
         );
-        //println!("{}\n", message);
-
-
         let mut signature =  witness_arr.get(0).unwrap().as_str();
-         ////////////////////////////////////////////////////////////////
-        /// I am not considering transaction other than sighashall so the function returns false
-        
-
+   
+        //I am not considering transaction other than sighashall so the function returns false
 
         if &signature[signature.len() - 2..] != "01" {
             //println!("not sighashall type signature");
@@ -355,15 +348,14 @@ impl P2WPKH {
         }
         let ho_vec: Vec<&str> = hash_output.iter().map(|s| s.as_str()).collect();
         let ho = double_sha256_strings(&ho_vec);
-        //println!("hash prevout:{}", ho);
         ho
     }
     pub fn p2wpkh_transaction_maker(&self, wtxid: bool) -> String {
           //Version number
           let version_bytes = self.version.to_le_bytes().iter().map(|&b| format!("{:02x}", b)).collect::<String>();
-          /// Locktime 
+          // Locktime 
           let locktime_hex = self.locktime.to_le_bytes().iter().map(|&b| format!("{:02x}", b)).collect::<String>();
-          //println!("{}",locktime_hex);
+        
           //marker and flag
           let marker = "00";
           let flag = "01";
@@ -383,7 +375,6 @@ impl P2WPKH {
             //Segwit does not have script sig
             let script_sig_size = "00";
             //Sequence
-            let sequence_num = vin["sequence"].as_u64().unwrap();
             let sequence_num = vin["sequence"].as_u64().unwrap() as u32;
             let mut sequence_num_bytes = [0; 4]; // 4 bytes for a u32 value
             LittleEndian::write_u32(&mut sequence_num_bytes, sequence_num);
@@ -438,7 +429,6 @@ impl P2WPKH {
         } else {
             raw_transaction = format!("{}{}{}{}{}{}", version_bytes,inputcount_hex,vin_messages.join(""),output_count_hex,vout_messages.join(""),locktime_hex);
         }
-        //println!("Raw transaction: {}",raw_transaction);
 
          // First, decode the raw_transaction into bytes
         let raw_bytes = hex::decode(raw_transaction).unwrap_or_else(|err| {
