@@ -359,7 +359,7 @@ fn main() {
          writeln!(file, "{}", item).unwrap();
      }
     let elapsed_time = start_time.elapsed();
-
+    println!("{:?}", elapsed_time);
 }
 trait ToHex {
     fn to_hex(&self) -> String;
